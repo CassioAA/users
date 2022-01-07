@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using Manager.Domain.Validators;
+
 namespace Manager.Domain.Entities {
 
     public class User : Base {
@@ -17,7 +21,7 @@ namespace Manager.Domain.Entities {
             Name = name;
             Email = email;
             Password = password;
-            _erros = new List<string>();
+            _errors = new List<string>();
         }
 
         public void ChangeName(string name){
@@ -35,8 +39,22 @@ namespace Manager.Domain.Entities {
             Validate();
         }
 
+        // a entidade se valida
         public override bool Validate() {
-            
+
+            var validator = new UserValidator();
+            var  validation = validator.Validate(this);
+
+            if(!validation.IsValid){
+                foreach (var error in validation.Errors)
+                {
+                    _errors.Add(error.ErrorMessage);
+                }
+
+                throw new Exception("Alguns campos estão inválidos, por favor, corrija-os" + _errors[0]);
+            }
+
+            return true;
         }
         
     }

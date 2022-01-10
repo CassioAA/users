@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Manager.Domain.Validators;
+using Manager.Core.Exceptions;
 
 namespace Manager.Domain.Entities {
 
@@ -51,7 +52,7 @@ namespace Manager.Domain.Entities {
                     _errors.Add(error.ErrorMessage);
                 }
 
-                throw new Exception("Alguns campos estão inválidos, por favor, corrija-os" + _errors[0]);
+                throw new DomainExceptions("Alguns campos estão inválidos, por favor, corrija-os", _errors);
             }
 
             return true;

@@ -48,7 +48,7 @@ namespace Manager.Infra.Repositories {
         }
 
         // todos os dados da tabela
-        public virtual async Task<List<T>> Get(T obj){
+        public virtual async Task<List<T>> Get(){
             return await _context.Set<T>()
                 .AsNoTracking().ToListAsync();
         }

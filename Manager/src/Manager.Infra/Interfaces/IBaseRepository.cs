@@ -13,6 +13,6 @@ namespace Manager.Infra.Interfaces
 
            Task<T> Get(long id);
 
-           Task<List<T>> Get(T obj);
+           Task<List<T>> Get();
        }
 }

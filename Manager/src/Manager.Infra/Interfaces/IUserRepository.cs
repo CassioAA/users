@@ -6,11 +6,11 @@ namespace Manager.Infra.Interfaces{
 
     public interface IUserRepository : IBaseRepository<User> {
 
-        Task<User>  GetByEmail(string email);
+        Task<User>  GetByEmailAsync(string email);
 
-        Task<List<User>>  SearchByEmail(string email);
+        Task<List<User>>  SearchByEmailAsync(string email);
 
-        Task<List<User>>  SearchByName(string name);
+        Task<List<User>>  SearchByNameAsync(string name);
 
     }
 }

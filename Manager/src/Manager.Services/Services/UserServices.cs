@@ -18,9 +18,9 @@ namespace Manager.Services.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserDTO> Create(UserDTO userDTO) {
+        public async Task<UserDTO> CreateAsync(UserDTO userDTO) {
  
-            var userExists = await _userRepository.GetByEmail(userDTO.Email);
+            var userExists = await _userRepository.GetByEmailAsync(userDTO.Email);
 
             if(userExists != null)
                 throw new DomainExceptions("Já existe um usuário cadastrado com o email informado.");
@@ -28,14 +28,14 @@ namespace Manager.Services.Services
             var user = _mapper.Map<User>(userDTO);
             user.Validate();
 
-            var userCreated = await _userRepository.Create(user);
+            var userCreated = await _userRepository.CreateAsync(user);
 
             return _mapper.Map<UserDTO>(userCreated);
         }
 
-        public async Task<UserDTO> Update(UserDTO userDTO) {
+        public async Task<UserDTO> UpdateAsync(UserDTO userDTO) {
 
-            var userExists = await _userRepository.GetByEmail(userDTO.Email);
+            var userExists = await _userRepository.GetByEmailAsync(userDTO.Email);
 
             if(userExists == null)
                 throw new DomainExceptions("Não existe um usuário cadastrado com o email informado.");
@@ -44,49 +44,49 @@ namespace Manager.Services.Services
             var user = _mapper.Map<User>(userDTO);
             user.Validate();
 
-            var userUpdated = await _userRepository.Update(user);
+            var userUpdated = await _userRepository.UpdateAsync(user);
 
             return _mapper.Map<UserDTO>(userUpdated);
 
         }
 
-        public async Task Remove(long Id) {
+        public async Task RemoveAsync(long Id) {
             
-            await _userRepository.Remove(Id);
+            await _userRepository.RemoveAsync(Id);
         }
 
-        public async Task<UserDTO> Get(long Id) {
+        public async Task<UserDTO> GetAsync(long Id) {
             
-            var user = await _userRepository.Get(Id);
+            var user = await _userRepository.GetAsync(Id);
 
             return _mapper.Map<UserDTO>(user);
         }
 
-        public async Task<List<UserDTO>> Get() {
-            var allUsers = await _userRepository.Get();
+        public async Task<List<UserDTO>> GetAllAsync() {
+            var allUsers = await _userRepository.GetAllAsync();
 
             return _mapper.Map<List<UserDTO>>(allUsers);
         }
 
-        public async Task<List<UserDTO>> SearchByName(string name) {
+        public async Task<List<UserDTO>> SearchByNameAsync(string name) {
             
-            var user = await _userRepository.SearchByName(name);
+            var user = await _userRepository.SearchByNameAsync(name);
 
             return _mapper.Map<List<UserDTO>>(user);
 
         }
 
-        public async Task<List<UserDTO>> SearchByEmail(string email) {
+        public async Task<List<UserDTO>> SearchByEmailAsync(string email) {
 
-            var user = await _userRepository.SearchByEmail(email);
+            var user = await _userRepository.SearchByEmailAsync(email);
 
             return _mapper.Map<List<UserDTO>>(user);
             
         }
 
-        public async Task<UserDTO> GetByEmail(string email) {
+        public async Task<UserDTO> GetByEmailAsync(string email) {
 
-            var user = await _userRepository.GetByEmail(email);
+            var user = await _userRepository.GetByEmailAsync(email);
 
             return _mapper.Map<UserDTO>(user);
             

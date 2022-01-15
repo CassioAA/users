@@ -24,22 +24,23 @@ namespace Manager.Infra.Mappings
             
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(70)
+                .HasMaxLength(140)
                 .HasColumnName("name")
                 // no SQL é um tipo equivalente à string
-                .HasColumnType("VARCHAR(70)");
-            
-            builder.Property(x => x.Password)
-                .IsRequired()
-                .HasMaxLength(30)
-                .HasColumnName("password")
-                .HasColumnType("VARCHAR(30)");
+                .HasColumnType("VARCHAR(140)");
 
             builder.Property(x => x.Email)
                 .IsRequired()
-                .HasMaxLength(180)
+                .HasMaxLength(80)
                 .HasColumnName("email")
+                .HasColumnType("VARCHAR(80)");
+
+            builder.Property(x => x.Password)
+                .IsRequired()
+                .HasMaxLength(180)
+                .HasColumnName("password")
                 .HasColumnType("VARCHAR(180)");
+
         }
     }
 }

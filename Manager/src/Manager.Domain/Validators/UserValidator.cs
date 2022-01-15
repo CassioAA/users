@@ -24,21 +24,8 @@ namespace Manager.Domain.Validators {
                 .MinimumLength(3)
                 .WithMessage("O nome deve ter mínimo 3 caracteres")
 
-                .MaximumLength(80)
-                .WithMessage("O nome deve ter no máximo 80 caracteres");
-
-            RuleFor(x => x.Password)
-                .NotEmpty()
-                .WithMessage("A senha não pode ser vazia.")
-
-                .NotNull()
-                .WithMessage("A senha não pode ser nula.")
-
-                .MinimumLength(6)
-                .WithMessage("A senha deve ter mínimo 6 caracteres")
-
-                .MaximumLength(30)
-                .WithMessage("O nome deve ter no máximo 30 caracteres");
+                .MaximumLength(140)
+                .WithMessage("O nome deve ter no máximo 140 caracteres");
 
             RuleFor(x => x.Email)
                 .NotEmpty()
@@ -47,14 +34,27 @@ namespace Manager.Domain.Validators {
                 .NotNull()
                 .WithMessage("O email não pode ser nulo.")
 
-                .MinimumLength(10)
+                .MinimumLength(3)
                 .WithMessage("O email deve ter mínimo 3 caracteres")
 
-                .MaximumLength(180)
+                .MaximumLength(80)
                 .WithMessage("O email deve ter no máximo 80 caracteres")
 
                 .Matches(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$")
                 .WithMessage("O email informado não é válido.");
+
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .WithMessage("A senha não pode ser vazia.")
+
+                .NotNull()
+                .WithMessage("A senha não pode ser nula.")
+
+                .MinimumLength(10)
+                .WithMessage("A senha deve ter mínimo 10 caracteres")
+
+                .MaximumLength(180)
+                .WithMessage("A senha deve ter no máximo 180 caracteres");
 
         }
 

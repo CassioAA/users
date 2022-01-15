@@ -13,7 +13,7 @@ namespace Manager.Infra.Repositories {
             _context = context;
         }
 
-        public virtual async Task<T> Create(T obj) {
+        public virtual async Task<T> CreateAsync(T obj) {
             _context.Add(obj);
             await _context.SaveChangesAsync();
 
@@ -24,15 +24,15 @@ namespace Manager.Infra.Repositories {
             return obj;
         }
 
-        public virtual async Task<T> Update(T obj) {
+        public virtual async Task<T> UpdateAsync(T obj) {
             _context.Entry(obj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return obj;
         }
 
-        public virtual async Task Remove(long id) {
-            var obj = await Get(id);
+        public virtual async Task RemoveAsync(long id) {
+            var obj = await GetAsync(id);
 
             if(obj != null) {
                 _context.Remove(obj);
@@ -40,7 +40,7 @@ namespace Manager.Infra.Repositories {
             }
         }
 
-        public virtual async Task<T> Get(long id) {
+        public virtual async Task<T> GetAsync(long id) {
             var obj = await _context.Set<T>()
                 .AsNoTracking().Where(x=>x.Id == id).ToListAsync();
 
@@ -48,7 +48,7 @@ namespace Manager.Infra.Repositories {
         }
 
         // todos os dados da tabela
-        public virtual async Task<List<T>> Get(){
+        public virtual async Task<List<T>> GetAllAsync(){
             return await _context.Set<T>()
                 .AsNoTracking().ToListAsync();
         }

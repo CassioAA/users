@@ -13,7 +13,7 @@ namespace Manager.Infra.Repositories
             _context = context;
         }
 
-        public async Task<User> GetByEmail(string email) {
+        public async Task<User> GetByEmailAsync(string email) {
 
             // em lowercase (letras minúsculas)
             var user = await _context.Users
@@ -23,7 +23,7 @@ namespace Manager.Infra.Repositories
             return user.FirstOrDefault();
         }
 
-        public async Task<List<User>> SearchByEmail(string email) {
+        public async Task<List<User>> SearchByEmailAsync(string email) {
 
             var allUsers = await _context.Users
                 .Where(x=>x.Email.ToLower().Contains(email.ToLower()))
@@ -32,7 +32,7 @@ namespace Manager.Infra.Repositories
             return allUsers;
         }
 
-        public async Task<List<User>> SearchByName(string nome) {
+        public async Task<List<User>> SearchByNameAsync(string nome) {
 
             var allUsers = await _context.Users
                 .Where(x=>x.Name.ToLower().Contains(nome.ToLower()))

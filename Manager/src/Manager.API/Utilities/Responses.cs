@@ -41,7 +41,7 @@ namespace Manager.API.Utilities {
 
             return new ResultViewModel{
             
-                Message = "A combinação de login e senha está errada",
+                Message = "A combinação de login e senha está incorreta",
                 Success = false,
                 Data = null
             

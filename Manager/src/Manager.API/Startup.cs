@@ -1,3 +1,4 @@
+using System.Text;
 using System.Xml.Serialization;
 using System.Buffers;
 using AutoMapper;
@@ -11,6 +12,9 @@ using Manager.Services.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Manager.Domain.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Manager.API.Token;
 
 namespace Manager.API
 {
@@ -28,6 +32,28 @@ public class Startup
         {
 
             services.AddControllers();
+
+            #region JWT
+
+            var secretKey = Configuration["Jwt:Key"];
+
+            services.AddAuthentication(x =>{
+
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                
+            }).AddJwtBearer(x => {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters{
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            #endregion
 
             #region AutoMapper
 
@@ -51,13 +77,51 @@ public class Startup
             );
             services.AddScoped<IUserService, UserServices>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             #endregion
 
+
+            #region Swagger
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api_Net6", Version = "v1" });
+                // API description
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Users Manager API",
+                    Version = "v1",
+                    Description = "API para gerenciamento de usuários.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Cassio Almeida",
+                        Email = "cassioalmeidaccti@gmail.com",
+                    },
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Por favor utilize Bearer <TOKEN>",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+                });
             });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +138,8 @@ public class Startup
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

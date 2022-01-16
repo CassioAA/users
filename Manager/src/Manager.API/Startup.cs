@@ -1,20 +1,19 @@
 using System.Text;
-using System.Xml.Serialization;
-using System.Buffers;
 using AutoMapper;
 using Manager.API.ViewModels;
+using Manager.API.Token;
 using Manager.Infra.Interfaces;
 using Manager.Infra.Repositories;
 using Manager.Infra.Context;
 using Manager.Services.DTO;
 using Manager.Services.Interfaces;
 using Manager.Services.Services;
+using Manager.Domain.Entities;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using Manager.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Manager.API.Token;
+using EscNet.IoC.Cryptography;
 
 namespace Manager.API
 {
@@ -122,6 +121,8 @@ public class Startup
             });
 
             #endregion
+
+            services.AddRijndaelCryptography(Configuration["Cryptography"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

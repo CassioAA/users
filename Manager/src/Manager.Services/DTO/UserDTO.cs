@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Manager.Services.DTO
 {
     public class UserDTO {
@@ -7,6 +9,11 @@ namespace Manager.Services.DTO
 
         public string Email { get; set; }
 
+        /* 
+            when serializing the objects, passwords will be 
+            ignored and thus not be displayed to the user
+        */
+        [JsonIgnore]
         public string Password { get; set; }
 
         public UserDTO()

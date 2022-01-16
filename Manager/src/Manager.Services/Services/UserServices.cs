@@ -15,7 +15,10 @@ namespace Manager.Services.Services
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
-        public UserServices(IMapper mapper, IUserRepository userRepository, IRijndaelCryptography rijndaelCryptography)
+        public UserServices(
+            IMapper mapper, 
+            IUserRepository userRepository, 
+            IRijndaelCryptography rijndaelCryptography)
         {
             _mapper = mapper;
             _userRepository = userRepository;
@@ -40,7 +43,7 @@ namespace Manager.Services.Services
 
         public async Task<UserDTO> UpdateAsync(UserDTO userDTO) {
 
-            var userExists = await _userRepository.GetByEmailAsync(userDTO.Email);
+            var userExists = await _userRepository.GetAsync(userDTO.Id);
 
             if(userExists == null)
                 throw new DomainExceptions("Não existe um usuário cadastrado com o email informado.");

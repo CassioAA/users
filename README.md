@@ -1,2 +1,2 @@
 # Users
-Projeto de uma Web API construída usando .NET 6, fazendo uso de Clean Architecture, testes automatizados, autenticação e autorização, criptografia de dados sensíveis e dentre outras práticas.
+Web API Project built using .NET 6, Clean Architecture, automated testing, authentication and authorization, encryption of sensitive data and among other practices.
